@@ -118,5 +118,53 @@ function bestYearAvg(arr){
 
      if(arr.length === 0) return null;
 
+     //group movies by year
+     let grouper = arr.reduce((group, movie) => {
 
+          let indefOfMovieInGroup = group.findIndex(x => {
+               return x.year === movie.year
+          });
+     
+          if(indefOfMovieInGroup >= 0){
+                    group[indefOfMovieInGroup].rates.push(movie.rate);
+          }
+          else
+          {
+               group.push({
+                    year: movie.year,
+                    rates: [movie.rate]
+               });     
+          }
+     
+          return group;
+     
+     }, []);
+     
+     //store best year and avg rate
+     let averageRateBest = { bestAvrRate: 0, bestYear: 0 }
+     
+     grouper.forEach(g => {
+          
+          //avg  rate
+          let totalRateSize = g.rates.length;
+          let totalRateAmount = g.rates.reduce((acc, val) => {
+               return acc + val;
+          }, 0)
+     
+          let avgRate = totalRateAmount/totalRateSize; 
+     
+          //if avg rate are equals
+          if(avgRate === averageRateBest.bestAvrRate){
+               if(g.year < averageRateBest.bestYear){
+                    averageRateBest.bestYear = g.year;
+                    averageRateBest.bestAvrRate = avgRate;
+               }
+          //store te best rate
+          } else if(avgRate > averageRateBest.bestAvrRate){
+               averageRateBest.bestYear = g.year;
+               averageRateBest.bestAvrRate = avgRate;
+          }
+     });
+     
+     return `The best year was ${averageRateBest.bestYear} with an average rate of ${averageRateBest.bestAvrRate}`;
 }
