@@ -3,9 +3,7 @@ function ratesAverage(arr){
      
      let totalMovies = arr.length;
 
-     const totalRate = arr.reduce((acc, value) => {
-          return acc + value.rate;
-     }, 0);
+     const totalRate = arr.reduce((acc, value) => acc + value.rate, 0);
 
      //Average
      return parseFloat((totalRate/totalMovies).toFixed(2));
@@ -70,11 +68,9 @@ function howManyMovies(arr){
 // Order by title and print the first 20 titles
 function orderAlphabetically(arr){
 
-     let byTitle = arr.slice().sort((a,b) => {
-          return a.title.localeCompare(b.title);
-     }).map(m => {
-          return m.title;
-     });
+     let byTitle = arr.slice()
+          .sort((a,b) => a.title.localeCompare(b.title))
+          .map(m => m.title);
 
      //Up to 20
      return byTitle.slice(0, 20);
@@ -83,13 +79,12 @@ function orderAlphabetically(arr){
 // Best yearly rate average
 function turnHoursToMinutes(arr){
 
-     let moviesWithNewDuration = arr.map(movie => {
-          
+     let moviesWithNewDuration = arr.map(movie =>           
           // Update duration format
-          return Object.assign({}, movie, {
+          Object.assign({}, movie, {
                duration: timeParser(movie.duration) //update key
-          });
-     });
+          })
+     );
 
      return moviesWithNewDuration;
 }
@@ -122,12 +117,10 @@ function bestYearAvg(arr){
      //group movies by year
      let grouper = arr.reduce((group, movie) => {
 
-          let indefOfMovieInGroup = group.findIndex(x => {
-               return x.year === movie.year
-          });
+          let indefOfMovieInGroup = group.findIndex(x => x.year === movie.year);
      
           if(indefOfMovieInGroup >= 0){
-                    group[indefOfMovieInGroup].rates.push(movie.rate);
+               group[indefOfMovieInGroup].rates.push(movie.rate);
           }
           else
           {
@@ -148,9 +141,7 @@ function bestYearAvg(arr){
           
           //avg  rate
           let totalRateSize = g.rates.length;
-          let totalRateAmount = g.rates.reduce((acc, val) => {
-               return acc + val;
-          }, 0)
+          let totalRateAmount = g.rates.reduce((acc, val) => acc + val, 0)
      
           let avgRate = totalRateAmount/totalRateSize; 
      
