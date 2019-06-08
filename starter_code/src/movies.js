@@ -76,6 +76,7 @@ function orderAlphabetically(arr){
           return m.title;
      });
 
+     //Up to 20
      return byTitle.slice(0, 20);
 }
 
